@@ -6,14 +6,33 @@
     <description>Recent content in Posts on :)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 25 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gyi-n49.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gyi-n49.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello World!</title>
       <link>https://gyi-n49.github.io/2021/04/hello-world/</link>
-      <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gyi-n49.github.io/2021/04/hello-world/</guid>
-      <description>&amp;ndash;欢迎来到我的博客👏      </description>
+      <description>欢迎来到我的博客👏      </description>
+    </item>
+    
+    <item>
+      <title>「学习笔记」使用hugo搭建个人静态博客</title>
+      <link>https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/</guid>
+      <description>-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站CodeSheep老师的视频。
+-操作系统为MacOS
+ 一、为什么搭建个人静态博客网站  可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。 动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。 静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。  二、软件准备 1. 使用终端安装Homebrew  Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。
+ 安装指南可参考乔一亖&amp;mdash;mac下高效安装 homebrew 及完美避坑姿势
+最终本人采用官方源进行安装：
+/bin/bash -c &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;quot; 中途出现两次报错：
+错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 解决方法一：
+ 系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114  解决方法二：
+  打开IP查询网站: https://www.ipaddress.com/ 查询raw.githubusercontent.com的IP地址   在终端修改hosts
+  sudo vim /etc/hosts 错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443 查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。
+最后参考：https://blog.csdn.net/wufantastic/article/details/91488651 解决</description>
     </item>
     
   </channel>

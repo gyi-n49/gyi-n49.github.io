@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.82.1 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="gyi-n49">
+<meta name="keywords" content="hugo, blog, Homebrew">
+<meta name="description" content="-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站CodeSheep老师的视频。
+-操作系统为MacOS
+ 一、为什么搭建个人静态博客网站  可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。 动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。 静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。  二、软件准备 1. 使用终端安装Homebrew  Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。
+ 安装指南可参考乔一亖&mdash;mac下高效安装 homebrew 及完美避坑姿势
+最终本人采用官方源进行安装：
+/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot; 中途出现两次报错：
+错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 解决方法一：
+ 系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114  解决方法二：
+  打开IP查询网站: https://www.ipaddress.com/ 查询raw.githubusercontent.com的IP地址   在终端修改hosts
+  sudo vim /etc/hosts 错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443 查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。
+最后参考：https://blog.csdn.net/wufantastic/article/details/91488651 解决">
+
+
+<meta property="og:description" content="-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站CodeSheep老师的视频。
+-操作系统为MacOS
+ 一、为什么搭建个人静态博客网站  可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。 动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。 静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。  二、软件准备 1. 使用终端安装Homebrew  Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。
+ 安装指南可参考乔一亖&mdash;mac下高效安装 homebrew 及完美避坑姿势
+最终本人采用官方源进行安装：
+/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot; 中途出现两次报错：
+错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 解决方法一：
+ 系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114  解决方法二：
+  打开IP查询网站: https://www.ipaddress.com/ 查询raw.githubusercontent.com的IP地址   在终端修改hosts
+  sudo vim /etc/hosts 错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443 查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。
+最后参考：https://blog.csdn.net/wufantastic/article/details/91488651 解决">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「学习笔记」使用hugo搭建个人静态博客">
+<meta name="twitter:title" content="「学习笔记」使用hugo搭建个人静态博客">
+<meta property="og:url" content="https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+<meta property="twitter:url" content="https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+<meta property="og:site_name" content=":)">
+<meta property="og:description" content="-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站CodeSheep老师的视频。
+-操作系统为MacOS
+ 一、为什么搭建个人静态博客网站  可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。 动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。 静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。  二、软件准备 1. 使用终端安装Homebrew  Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。
+ 安装指南可参考乔一亖&mdash;mac下高效安装 homebrew 及完美避坑姿势
+最终本人采用官方源进行安装：
+/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot; 中途出现两次报错：
+错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 解决方法一：
+ 系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114  解决方法二：
+  打开IP查询网站: https://www.ipaddress.com/ 查询raw.githubusercontent.com的IP地址   在终端修改hosts
+  sudo vim /etc/hosts 错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443 查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。
+最后参考：https://blog.csdn.net/wufantastic/article/details/91488651 解决">
+<meta name="twitter:description" content="-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站CodeSheep老师的视频。
+-操作系统为MacOS
+ 一、为什么搭建个人静态博客网站  可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。 动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。 静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。  二、软件准备 1. 使用终端安装Homebrew  Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。
+ 安装指南可参考乔一亖&mdash;mac下高效安装 homebrew 及完美避坑姿势
+最终本人采用官方源进行安装：
+/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot; 中途出现两次报错：
+错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 解决方法一：
+ 系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114  解决方法二：
+  打开IP查询网站: https://www.ipaddress.com/ 查询raw.githubusercontent.com的IP地址   在终端修改hosts
+  sudo vim /etc/hosts 错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443 查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。
+最后参考：https://blog.csdn.net/wufantastic/article/details/91488651 解决">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2021-04-26T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2021-04-26T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="Blog">
+    
+      <meta property="article:section" content="学习笔记">
+    
+  
+  
+    
+      <meta property="article:tag" content="hugo">
+    
+      <meta property="article:tag" content="blog">
+    
+      <meta property="article:tag" content="Homebrew">
+    
+      <meta property="article:tag" content="git">
+    
+      <meta property="article:tag" content="博客">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://gyi-n49.github.io/img/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/thumbnail.png">
+  <meta property="twitter:image" content="https://gyi-n49.github.io/img/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/thumbnail.png">
+
+
+
+
+
+  <meta property="og:image" content="https://gyi-n49.github.io/images/profile.jpg">
+  <meta property="twitter:image" content="https://gyi-n49.github.io/images/profile.jpg">
+
+
+    <title>「学习笔记」使用hugo搭建个人静态博客</title>
+
+    <link rel="icon" href="https://gyi-n49.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://gyi-n49.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://gyi-n49.github.io/">:)</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://gyi-n49.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://gyi-n49.github.io/images/profile.jpg" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://gyi-n49.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://gyi-n49.github.io/images/profile.jpg" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">gyi-n49</h4>
+        
+          <h5 class="sidebar-profile-bio">I&rsquo;m gonna be cool :)</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/gyi-n49" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://weibo.com/u/5515704327/home?wvr=5" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-weibo"></i>
+      
+      <span class="sidebar-button-desc">Weibo</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.instagram.com/gyi_n49/" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-instagram"></i>
+      
+      <span class="sidebar-button-desc">Instagram</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://gyi-n49.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      「学习笔记」使用hugo搭建个人静态博客
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-04-26T00:00:00Z">
+        
+  
+  
+  
+  
+    2021年4月26日
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://gyi-n49.github.io/categories/blog">Blog</a>, 
+    
+      <a class="category-link" href="https://gyi-n49.github.io/categories/%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0">学习笔记</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>-首先声明，本人小白，文章纯属个人学习笔记。内容学习自B站<a href="https://www.bilibili.com/video/BV1q4411i7gL">CodeSheep老师的视频</a>。</p>
+<p>-操作系统为<strong>MacOS</strong></p>
+<hr>
+<h1 id="一为什么搭建个人静态博客网站">一、为什么搭建个人静态博客网站</h1>
+<ol>
+<li>可根据个人喜好对网页进行布局和规划，文章分类具体化，界面更美观，使用更自由。</li>
+<li>动态网站功能强大但较为复杂，要求一定的前后端知识基础；需要个人服务器和域名，维护成本高。</li>
+<li>静态网站搭建要求简单，远端服务器可连接github或者gitee。根据教程一步一步操作即可，适合我这样的小白。</li>
+</ol>
+<h1 id="二软件准备">二、软件准备</h1>
+<h2 id="1-使用终端安装homebrewhttpsbrewsh">1. 使用终端安装<a href="https://brew.sh">Homebrew</a></h2>
+<blockquote>
+<p>Homebrew是一款自由及开放源代码的软件包管理系统，用以简化macOS系统上的软件安装过程。因其可扩展性得到了一致好评，而在Ruby on Rails社区广为人知。</p>
+</blockquote>
+<p>安装指南可参考<a href="https://www.cnblogs.com/joyce33/p/13376752.html">乔一亖&mdash;mac下高效安装 homebrew 及完美避坑姿势</a></p>
+<p>最终本人采用官方源进行安装：</p>
+<pre><code>/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
+</code></pre><p>中途出现两次报错：</p>
+<h3 id="错误1-curl-7-failed-to-connect-to-rawgithubusercontentcom-port-443-connection-refused"><strong>错误1-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused</strong></h3>
+<p>解决方法一：</p>
+<ul>
+<li>系统偏好设置-网路-高级-DNS-添加DNS服务器8.8.8.8或114.114.114.114</li>
+</ul>
+<p>解决方法二：</p>
+<ul>
+<li>
+<p>打开IP查询网站: <a href="https://www.ipaddress.com/%5D">https://www.ipaddress.com/</a>     查询raw.githubusercontent.com的IP地址
+<img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/1.png" alt="Tranquilpeak"></p>
+</li>
+<li>
+<p>在终端修改hosts</p>
+</li>
+</ul>
+<pre><code>sudo vim /etc/hosts  
+</code></pre><p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/2.jpeg" alt="Tranquilpeak"></p>
+<h3 id="错误2-curl-35-libressl-ssl_connect-ssl_error_syscall-in-connection-to-rawgithubusercontentcom443"><strong>错误2-curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to raw.githubusercontent.com:443</strong></h3>
+<p>查了半天不知道怎么弄，很多人说是代理出了问题。但是我在终端输入vi ~/.gitconfig查看，并没有[http] 或者 [https]的相关配置。<br>
+最后参考：<a href="https://blog.csdn.net/wufantastic/article/details/91488651">https://blog.csdn.net/wufantastic/article/details/91488651</a>  解决</p>
+<!-- raw HTML omitted -->
+<h2 id="2-下载安装git官方安装指南httpsgit-scmcombookzhv2起步-安装-git">2. 下载安装Git<a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git">（官方安装指南）</a></h2>
+<ul>
+<li>MacOS系统在终端里首次运行 git 命令即可跳出安装提示</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="3-下载安装hugohugo中文文档httpswwwgohugoorg">3. 下载安装hugo<a href="https://www.gohugo.org/">（Hugo中文文档）</a></h2>
+<blockquote>
+<p>Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。</p>
+</blockquote>
+<ul>
+<li>Mac下直接在终端使用 Homebrew 安装：</li>
+</ul>
+<pre><code>brew install hugo
+</code></pre><p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/3.png" alt="Tranquilpeak"><br>
+-输入 hugo version<br>
+-返回hugo对应的版本，确认安装完成</p>
+<h1 id="三使用hugo生成博客">三、使用hugo生成博客</h1>
+<h2 id="1-在终端输入语句建立站点">1. 在终端输入语句建立站点：</h2>
+<pre><code>hugo new site myblog
+</code></pre><p>-文件夹名“myblog”可自定义。<br>
+-成功后会返回文件所在目录：</p>
+<p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/4.png" alt="Tranquilpeak"></p>
+<h2 id="2-下载并设置主题">2. 下载并设置主题</h2>
+<p>主题的设置较为关键，界面和布局的选择全凭个人喜好。功能多的主题配置起来可能会复杂一些，说明文档也有所不同。<br>
+-hugo官网有众多精美的主题可供选择：<a href="https://themes.gohugo.io">https://themes.gohugo.io</a></p>
+<p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/5.png" alt="Tranquilpeak"></p>
+<p>-挑选一个自己喜欢的主题后，可以在 GitHub 仓库的 Release 页面找到最新的稳定版。 下载主题后解压，并放到站点目录的 theme 文件夹下。<br>
+也可以使用Git 命令来下载主题的最新版本，在建立的Hugo站点的theme目录下执行(有些主题要求在根目录下执行，具体看对应的文档说明)：</p>
+<p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/6.png" alt="Tranquilpeak"></p>
+<h2 id="3-使用主题demo的内容">3. 使用主题Demo的内容</h2>
+<p>-一般下载主题都会带有exampleSite这个文件夹，需要把里面的所有内容复制，然后覆盖到根目录中</p>
+<p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/7.png" alt="Tranquilpeak"></p>
+<h2 id="4-在本地启动个人博客">4. 在本地启动个人博客</h2>
+<p>-回到根目录，使用 hugo server 命令来启动博客</p>
+<p><img src="https://gyi-n49.github.io/img//%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/8.png" alt="Tranquilpeak"></p>
+<p>-返回一个本地链接，可以在浏览器打开，代表博客已经成功在本地启动！</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://gyi-n49.github.io/tags/hugo/">hugo</a>
+
+  <a class="tag tag--primary tag--small" href="https://gyi-n49.github.io/tags/blog/">blog</a>
+
+  <a class="tag tag--primary tag--small" href="https://gyi-n49.github.io/tags/homebrew/">Homebrew</a>
+
+  <a class="tag tag--primary tag--small" href="https://gyi-n49.github.io/tags/git/">git</a>
+
+  <a class="tag tag--primary tag--small" href="https://gyi-n49.github.io/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://gyi-n49.github.io/2021/04/hello-world/" data-tooltip="Hello World!">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=%25!%28EXTRA%20string=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/%29">
+              <i class="fa fab fa-qq"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2021 gyi-n49. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://gyi-n49.github.io/2021/04/hello-world/" data-tooltip="Hello World!">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=%25!%28EXTRA%20string=https://gyi-n49.github.io/2021/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/%29">
+              <i class="fa fab fa-qq"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgyi-n49.github.io%2F2021%2F04%2F%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E4%25BD%25BF%25E7%2594%25A8hugo%25E6%2590%25AD%25E5%25BB%25BA%25E4%25B8%25AA%25E4%25BA%25BA%25E9%259D%2599%25E6%2580%2581%25E5%258D%259A%25E5%25AE%25A2%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fgyi-n49.github.io%2F2021%2F04%2F%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E4%25BD%25BF%25E7%2594%25A8hugo%25E6%2590%25AD%25E5%25BB%25BA%25E4%25B8%25AA%25E4%25BA%25BA%25E9%259D%2599%25E6%2580%2581%25E5%258D%259A%25E5%25AE%25A2%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=%25!%28EXTRA%20string=https%3A%2F%2Fgyi-n49.github.io%2F2021%2F04%2F%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E4%25BD%25BF%25E7%2594%25A8hugo%25E6%2590%25AD%25E5%25BB%25BA%25E4%25B8%25AA%25E4%25BA%25BA%25E9%259D%2599%25E6%2580%2581%25E5%258D%259A%25E5%25AE%25A2%2F%29">
+          <i class="fa fab fa-qq"></i><span>分享到 QQ</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://gyi-n49.github.io/images/profile.jpg" alt="作者的图片" />
+    
+    <h4 id="about-card-name">gyi-n49</h4>
+    
+      <div id="about-card-bio">I&rsquo;m gonna be cool :)</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        nope
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China🇨🇳
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://gyi-n49.github.io/images/my.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://gyi-n49.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/gyi-n49.github.io\/2021\/04\/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2\/';
+          
+            this.page.identifier = '\/2021\/04\/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
